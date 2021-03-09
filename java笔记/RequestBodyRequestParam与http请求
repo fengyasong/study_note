@@ -1,0 +1,61 @@
+    @PostMapping("createEmail")
+    public R createEmail(@RequestBody User user){
+        return null;
+    }
+    @PutMapping("forbidEmail")
+    public R forbidEmail(@RequestParam String userid){
+        return null;
+    }
+    
+    对于上面的接口
+    //createEmail
+    String url = "http://.../createEmail";
+		// 创建Httpclient对象
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		CloseableHttpResponse resp = null;
+		Map<String, Object> map = new HashMap<>();
+		Enumeration<String> names = request.getParameterNames();
+		while (names.hasMoreElements()) {
+			map.put(name, request.getParameter(name));
+		}
+		map.put("department", department);
+		String json = JSON.toJSONString(map);
+		try {
+			// 创建Http Post请求
+			HttpPost httpPost = new HttpPost(url);
+			// 创建请求内容
+			StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
+			httpPost.setEntity(entity);
+			// 执行http请求
+			resp = httpClient.execute(httpPost);
+			String resultString = EntityUtils.toString(resp.getEntity(), "utf-8");
+			response.getWriter().print(resultString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    
+    
+    //forbidEmail
+    String userid = request.getParameter("userid");
+		// 创建邮箱接口
+		String url = "http://.../forbidEmail";
+		// 创建Httpclient对象
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		CloseableHttpResponse resp = null;
+		try {
+			// 创建Http Post请求
+			HttpPut httpPost = new HttpPut(url);
+			// 创建请求内容
+			List<BasicNameValuePair> paramList = new ArrayList<>();
+			paramList.add(new BasicNameValuePair("userid", userid));
+
+			// 模拟表单
+			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList);
+			httpPost.setEntity(entity);
+			// 执行http请求
+			resp = httpClient.execute(httpPost);
+			String resultString = EntityUtils.toString(resp.getEntity(), "utf-8");
+			response.getWriter().print(resultString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
